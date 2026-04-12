@@ -1,0 +1,30 @@
+
+// nâng cao
+-Danh sách ShowTime của phim:
+    Input: ID của Movie
+    Return: Thông tin ShowTime.
+        Miêu tả chi tiết:
+        Danh sách các ngày có suất chiếu:
+        Danh sách cứng các Location: get hết không cần check có suất chiếu ở Location đó hay không
+        Danh sách các Cinema có suất chiếu.
+        Danh sách các ShowTime có trong Cinema.
+
+    *Xem 3.Màn hình hiển thị các suất chiếu phim để tham khảo*
+
+-Danh sách Seat trong Screen:
+    Input: ID của ShowTime
+    Return: Sanh sách các Seat có liên kết với ShowTime
+
+    *Tùy bạn nhe, danh sách này vẫn có thể trả trong danh sách ShowTime ròi nhưng mà sợ nhiều quá nên get cái này nữa cho đỡ chuyển qua chuyển lại ahuhu*
+
+-Lịch sử thanh toán:
+    Input: UserID
+    Return: Danh sách các vé đã mua: id Ticket, tên Movie, Tên Cinema, ngày của ShowTime (Lấy trường startTime), Thời gian chiếu (lấy từ trường startTime và endTime).
+
+-Chi tiết vé:
+    Input: id Ticket
+    Return: QR, Tên Movie, ngày chiếu, giờ chiếu, rạp chiếu, booking number, poster, Danh sách Seat mua, Tên Screen, Subtotal, rating
+
+--- Còn API thêm + update thông tin
+
+DONE:
