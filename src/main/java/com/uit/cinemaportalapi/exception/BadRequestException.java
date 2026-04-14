@@ -17,4 +17,5 @@ public class BadRequestException extends RuntimeException {
         super(message, cause);
         LOGGER.error(message, cause);
     }
+
 }

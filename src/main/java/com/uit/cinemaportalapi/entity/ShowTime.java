@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -24,35 +25,33 @@ public class ShowTime {
     @Column(name = "ID", updatable = false, nullable = false)
     private Long id;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "showtime", cascade = CascadeType.ALL)
-    private List<Seat> seats;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "showTime", cascade = CascadeType.ALL)
+    private List<ShowSeat> showSeats;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "CINEMA_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CINEMA_ID", nullable = false)
     private Cinema cinema;
 
-    @Column(name = "CINEMA_NAME")
-    private String cinemaName;
-
-    @Column(name = "SCREEN")
-    private String screen;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SCREEN_ID", nullable = false)
+    private Screen screen;
 
     @Column(name = "PRICE")
     private BigDecimal price;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "MOVIE_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MOVIE_ID", nullable = false)
     @JsonIgnore
     private Movie movie;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "GMT+7")
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "START_TIME")
+    @Column(name = "START_TIME", nullable = false)
     private Date startTime;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "GMT+7")
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "END_TIME")
+    @Column(name = "END_TIME", nullable = false)
     private Date endTime;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "GMT+7")

@@ -16,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name = "USER")
+@Table(name = "APP_USER")
 public class User {
     @Id
     @GeneratedValue(generator = "USER_ID_GENERATOR")
@@ -33,7 +33,7 @@ public class User {
     @Column(name = "PASSWORD_REMINDER_TOKEN", length = 128)
     private String passReminderToken;
 
-    @Column(name = "PASSWORD_REMINDER_EEXPIRE")
+    @Column(name = "PASSWORD_REMINDER_EXPIRE")
     private Date passReminderExpire;
 
     @Email

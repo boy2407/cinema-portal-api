@@ -10,8 +10,7 @@ import java.util.Date;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
+@Data
 @Table(name = "MOVIE")
 public class Movie {
     @Id
@@ -53,7 +52,7 @@ public class Movie {
     @Column(name = "DIRECTOR", length = 255)
     private String director;
 
-    @Column(name = "CAST", length = 255)
+    @Column(name = "CAST_MEMBERS", length = 255)
     private String cast;
 
     @Column(name= "ENABLE")
@@ -63,4 +62,3 @@ public class Movie {
     @Column(name = "RELEASE_DATE")
     private Date releaseDate;
 }
-//

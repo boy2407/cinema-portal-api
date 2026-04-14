@@ -4,18 +4,16 @@ import com.uit.cinemaportalapi.entity.*;
 import com.uit.cinemaportalapi.exception.BadRequestException;
 import com.uit.cinemaportalapi.payload.dto.PaymentHistoryDTO;
 import com.uit.cinemaportalapi.payload.dto.TicketInfoDTO;
-import com.uit.cinemaportalapi.repository.SeatRepository;
+import com.uit.cinemaportalapi.repository.ShowSeatRepository;
 import com.uit.cinemaportalapi.repository.ShowTimeRepository;
 import com.uit.cinemaportalapi.repository.TicketRepository;
 import com.uit.cinemaportalapi.repository.UserRepository;
 import com.uit.cinemaportalapi.service.TicketService;
-import com.uit.cinemaportalapi.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +30,10 @@ public class TicketServiceImpl implements TicketService {
     private ShowTimeRepository showTimeRepository;
 
     @Autowired
-    private SeatRepository seatRepository;
+    private ShowSeatRepository showSeatRepository;
+
+    // string stringbuilder
+
 
     @Autowired
     private UserRepository userRepository;
@@ -45,7 +46,8 @@ public class TicketServiceImpl implements TicketService {
 
         if (ticketOptional.isPresent()) {
             Ticket ticket = ticketOptional.get();
-            ShowTime showTime = ticket.getSeats().get(0).getShowtime();
+            ShowSeat showSeat = ticket.getShowSeats().get(0);
+            ShowTime showTime = showSeat.getShowTime();
             Movie movie = showTime.getMovie();
             Cinema cinema = showTime.getCinema();
             TicketInfoDTO ticketInfoDTO = new TicketInfoDTO();
@@ -76,8 +78,10 @@ public class TicketServiceImpl implements TicketService {
                 .map(this::mapToTicketInfoDTO)
                 .collect(Collectors.toList());
     }
+
     private PaymentHistoryDTO mapToTicketInfoDTO(Ticket ticket) {
-        ShowTime showTime = ticket.getSeats().get(0).getShowtime();
+        ShowSeat showSeat = ticket.getShowSeats().get(0);
+        ShowTime showTime = showSeat.getShowTime();
         Movie movie = showTime.getMovie();
         Cinema cinema = showTime.getCinema();
         PaymentHistoryDTO paymentHistoryDTO = new PaymentHistoryDTO();
@@ -90,32 +94,32 @@ public class TicketServiceImpl implements TicketService {
         paymentHistoryDTO.setEndTime(showTime.getEndTime());
         paymentHistoryDTO.setBookingNumber(ticket.getBookingNumber());
         List<String> seatList = new ArrayList<>();
-        for (Seat seat : ticket.getSeats()) {
-            seatList.add(seat.getRow() + seat.getNumber());
+        for (ShowSeat seat : ticket.getShowSeats()) {
+            seatList.add(seat.getRoomSeat().getSeatRow() + seat.getRoomSeat().getSeatNumber());
         }
         String seats = String.join(", ", seatList);
         paymentHistoryDTO.setSeats(seats);
-        paymentHistoryDTO.setScreen(showTime.getScreen());
+        paymentHistoryDTO.setScreen(showTime.getScreen().getScreenCode());
         paymentHistoryDTO.setSubtotal(ticket.getSubtotal());
         paymentHistoryDTO.setQrCode(ticket.getQrCode());
         return paymentHistoryDTO;
     }
 
     @Override
-    public Ticket createTicket(List<Seat> seats, Long userId, BigDecimal subtotal) {
+    public Ticket createTicket(List<ShowSeat> seats, Long userId, BigDecimal subtotal) {
         Ticket ticket = new Ticket();
         Optional<User> user= userRepository.findById(userId);
 
         if (user.isPresent()) {
-            ticket.setSeats(seats);
+            ticket.setShowSeats(seats);
             ticket.setUser(user.get());
             ticket.setSubtotal(subtotal);
             LocalDateTime now = LocalDateTime.now();
 
             String bookingNumber = Integer.toString(now.getYear()) + Integer.toString(now.getMonthValue())  + Integer.toString(now.getDayOfMonth());
 
-            for (Seat seat : seats) {
-                bookingNumber = bookingNumber + seat.getRow() + Integer.toString(seat.getNumber());
+            for (ShowSeat seat : seats) {
+                bookingNumber = bookingNumber + seat.getRoomSeat().getSeatRow() + Integer.toString(seat.getRoomSeat().getSeatNumber());
             }
             ticket.setBookingNumber(bookingNumber);
         }

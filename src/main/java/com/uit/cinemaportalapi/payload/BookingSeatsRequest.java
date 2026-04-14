@@ -1,26 +1,24 @@
 package com.uit.cinemaportalapi.payload;
 
-
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
 @Setter
 public class BookingSeatsRequest {
-    @ApiModelProperty(value = "id suất chiếu", required = true)
+    @Schema(description = "id suất chiếu", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long showtimeID;
 
-    @ApiModelProperty(value = "id user", required = true)
+    @Schema(description = "id user", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long userID;
 
-    @ApiModelProperty(value = "danh sách id seat", required = true)
+    @Schema(description = "danh sách id seat", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<Long> seatIDs;
 
-    @ApiModelProperty(value = "Tổng tiền", required = true)
+    @Schema(description = "Tổng tiền", requiredMode = Schema.RequiredMode.REQUIRED)
     private BigDecimal subtotal;
 }

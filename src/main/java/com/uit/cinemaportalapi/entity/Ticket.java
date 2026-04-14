@@ -26,7 +26,7 @@ public class Ticket {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "ticket", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Seat> seats;
+    private List<ShowSeat> showSeats;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
@@ -46,7 +46,7 @@ public class Ticket {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATED_DATE")
-    private Date createDate;
+    private Date createdDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "GMT+7")
     @UpdateTimestamp

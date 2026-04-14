@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CinemaServiceImpl implements CinemaService {
@@ -28,10 +27,43 @@ public class CinemaServiceImpl implements CinemaService {
     @Override
     public Cinema getCinemaByID(Long id) {
         try {
-            Optional<Cinema> cinemaOptional = cinemaRepository.findById(id);
-            return cinemaOptional.orElse(null);
+            return cinemaRepository.findById(id)
+                    .orElseThrow(() -> new BadRequestException("Cinema not found with id: " + id));
         } catch (Exception e) {
-            throw new BadRequestException("Can not find Movie: " + e.getMessage());
+            throw new BadRequestException("Can not find Cinema: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public Cinema createCinema(Cinema cinema) {
+        try {
+            cinema.setId(null);
+            return cinemaRepository.save(cinema);
+        } catch (Exception e) {
+            throw new BadRequestException("Can not create Cinema: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public Cinema updateCinema(Long id, Cinema cinema) {
+        try {
+            Cinema existingCinema = getCinemaByID(id);
+            existingCinema.setCode(cinema.getCode());
+            existingCinema.setName(cinema.getName());
+            existingCinema.setLocation(cinema.getLocation());
+            return cinemaRepository.save(existingCinema);
+        } catch (Exception e) {
+            throw new BadRequestException("Can not update Cinema: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void deleteCinema(Long id) {
+        try {
+            Cinema existingCinema = getCinemaByID(id);
+            cinemaRepository.delete(existingCinema);
+        } catch (Exception e) {
+            throw new BadRequestException("Can not delete Cinema: " + e.getMessage());
         }
     }
 }

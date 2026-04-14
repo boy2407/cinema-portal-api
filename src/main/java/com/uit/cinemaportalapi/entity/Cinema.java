@@ -1,8 +1,11 @@
 package com.uit.cinemaportalapi.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 
 @Entity
@@ -25,4 +28,8 @@ public class Cinema {
 
     @Column(name = "LOCATION", length = 255)
     private String location;
+
+    @OneToMany(mappedBy = "cinema", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Screen> screens;
 }

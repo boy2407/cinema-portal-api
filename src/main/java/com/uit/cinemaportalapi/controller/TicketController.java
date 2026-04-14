@@ -29,6 +29,5 @@ public class TicketController {
     @GetMapping("/history-payment/{userID}")
     ResponseEntity<List<PaymentHistoryDTO>>getTicketsByUserId(@PathVariable(name = "userID") Long userID){
         return ResponseEntity.ok(ticketService.getTicketsByUserId(userID));
-
     }
 }

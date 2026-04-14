@@ -12,7 +12,6 @@ target/
 .settings
 .springBeans
 .sts4-cache
-
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -34,3 +33,4 @@ build/
 
 ### config ###
 .properties
+copilot-instructions.md
