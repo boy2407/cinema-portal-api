@@ -38,15 +38,10 @@ public class SecurityConfig {
                                 "/user/resend-verification"
                         ).permitAll()
                         .requestMatchers(
-                                "/v3/api-docs/**",
-                                "/v3/api-docs",
                                 "/api-docs/**",
                                 "/api-docs",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/swagger-resources/**",
-                                "/swagger-resources",
-                                "/webjars/**"
+                                "/swagger-ui.html"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
